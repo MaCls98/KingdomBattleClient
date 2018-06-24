@@ -31,4 +31,8 @@ public class MainWindow extends JFrame{
 	public void paintPlayers(ArrayList<Player> players){
 		panelGame.paintPlayers(players);
 	}
+	
+	public void refreshUI(){
+		panelGame.refreshUI();
+	}
 }

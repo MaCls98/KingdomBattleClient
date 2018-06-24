@@ -28,4 +28,7 @@ public class PanelGame extends JPanel{
 		gameScreen.paintPlayers(players);
 	}
 
+	public void refreshUI() {
+		gameScreen.repaint();
+	}
 }

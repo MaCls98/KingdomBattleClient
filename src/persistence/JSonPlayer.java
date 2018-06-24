@@ -25,9 +25,9 @@ public class JSonPlayer {
 			JSONParser parser = new JSONParser();
 			JSONObject root = (JSONObject) parser.parse(new FileReader(jsonPlayers));
 			JSONObject dataObj = (JSONObject) root.get("data");
-			JSONArray players = (JSONArray) dataObj.get("players");
-			for (int i = 0; i < players.size(); i++) {
-				JSONObject obj = (JSONObject) players.get(i);
+			JSONArray playersArray = (JSONArray) dataObj.get("players");
+			for (int i = 0; i < playersArray.size(); i++) {
+				JSONObject obj = (JSONObject) playersArray.get(i);
 				String name = (String) obj.get("name");
 				long xAxis = (long) obj.get("xAxis");
 				long yAxis = (long) obj.get("yAxis");

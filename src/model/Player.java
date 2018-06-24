@@ -3,7 +3,6 @@ package model;
 public class Player {
 	
 	private String name;
-	private String password;
 	private int screenWidth;
 	private int screenHeigth;
 	private int xAxis;
@@ -12,9 +11,13 @@ public class Player {
 	private int health;
 	private int attack;
 	private int move;
+	private Shoot shoot;
+	
+	public Player() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Player(String name, int xAxis, int yAxis, int direction, int health, int attack) {
-		super();
 		this.name = name;
 		this.xAxis = xAxis;
 		this.yAxis = yAxis;
@@ -23,56 +26,63 @@ public class Player {
 		this.attack = attack;
 	}
 
-	public Player(String name, String password) {
+	public Player(String name, int screenWidth, int screenHeigth) {
 		this.name = name;
-		this.password = password;
-		this.screenWidth = 900;
-		this.screenHeigth = 600;
 		health = 100;
 		attack = 5;
 		move = 10;
+		this.screenWidth = screenWidth;
+		this.screenHeigth = screenHeigth;
 		System.out.println(screenWidth);
 		System.out.println(screenHeigth);
 	}
+	
+	public void removeShoot(){
+		shoot = null;
+	}
+	
+	public void createShoot(int x, int y, int damage, int direction){
+		shoot = new Shoot(x, y, damage, direction);
+	}
+	
+	public Shoot getShoot() {
+		return shoot;
+	}
 
 	public void moveLeft(){
-		if (xAxis <= 40) {
-			xAxis = 40;
+		if (xAxis <= 0) {
+			xAxis = 0;
 		}else {
 			xAxis = xAxis - move;
 		}
 	}
 	
 	public void moveRigth(){
-		if (xAxis >= screenWidth - 40) {
-			xAxis = screenWidth - 40;
+		if (xAxis >= screenWidth) {
+			xAxis = screenWidth;
 		}else {
 			xAxis = xAxis + move;
 		}
 	}
 	
 	public void moveUp(){
-		if (yAxis <= 40) {
-			yAxis = 40;
+		if (yAxis <= 0) {
+			yAxis = 0;
 		}else {
 			yAxis = yAxis - move;
 		}
 	}
 	
 	public void moveDown(){
-		if (yAxis >= screenHeigth - 40) {
-			yAxis = screenHeigth - 40;
+		if (yAxis >= screenHeigth) {
+			yAxis = screenHeigth;
 		}else {
 			yAxis = yAxis + move;
 		}
 	}
 	
-	public String getName() {
+	public String getUserName() {
 		return name;
-	}
-	
-	public String getPassword() {
-		return password;
 	}
 	
 	public int getxAxis() {
@@ -109,6 +119,26 @@ public class Player {
 	
 	public void setDirection(int direction) {
 		this.direction = direction;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setScreenWidth(int screenWidth) {
+		this.screenWidth = screenWidth;
+	}
+
+	public void setScreenHeigth(int screenHeigth) {
+		this.screenHeigth = screenHeigth;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
 	}
 
 	@Override

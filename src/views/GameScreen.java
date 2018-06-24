@@ -32,16 +32,20 @@ public class GameScreen extends JPanel{
 	}
 	
 	@Override
-	public synchronized void paint(Graphics g) {
+	public void paint(Graphics g) {
 		super.paint(g);
 		ArrayList<Player> tmpPlayers = players;
 		if (tmpPlayers != null) {
-			Iterator<Player> playerIterator = tmpPlayers.iterator();
-			while (playerIterator.hasNext()) {
-				Player tmpPlayer = playerIterator.next();
-				g.drawImage(warrior.getImage(), tmpPlayer.getyAxis(), tmpPlayer.getxAxis(), this);
+			System.out.println(players);
+			for (Player player : tmpPlayers) {
+				try {
+					g.drawImage(warrior.getImage(), player.getxAxis(), player.getyAxis(), this);
+					g.drawString(player.getUserName(), player.getxAxis(), player.getyAxis() - 15);
+					g.drawString(String.valueOf(player.getHealth()), player.getxAxis(), player.getyAxis() + 30);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 			}
 		}
-		repaint();
 	}
 }
