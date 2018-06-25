@@ -12,6 +12,7 @@ public class Player {
 	private int attack;
 	private int move;
 	private boolean isAlive;
+	private int money;
 	private Shoot shoot;
 	
 	public Player() {
@@ -26,6 +27,7 @@ public class Player {
 		this.health = health;
 		this.attack = attack;
 		isAlive = true;
+		money = 100;
 	}
 	
 	public Player(String name, int screenWidth, int screenHeigth) {
@@ -33,8 +35,15 @@ public class Player {
 		health = 100;
 		attack = 5;
 		move = 5;
+		isAlive = true;
 		this.screenWidth = screenWidth;
 		this.screenHeigth = screenHeigth;
+	}
+	
+	public void checkAlive(){
+		if (health <= 0) {
+			isAlive = false;
+		}
 	}
 	
 	public void fixHealth(){
@@ -46,7 +55,7 @@ public class Player {
 	}
 	
 	public void createShoot(int x, int y, int damage, int direction){
-		shoot = new Shoot(x, y, damage, direction);
+		shoot = new Shoot(x, y, damage, direction, getUserName());
 	}
 	
 	public Shoot getShoot() {
@@ -54,34 +63,42 @@ public class Player {
 	}
 
 	public void moveLeft(){
-		if (xAxis <= 0) {
-			xAxis = 0;
-		}else {
-			xAxis = xAxis - move;
+		if (isAlive) {
+			if (xAxis <= 0) {
+				xAxis = 0;
+			}else {
+				xAxis = xAxis - move;
+			}
 		}
 	}
 	
 	public void moveRigth(){
-		if (xAxis >= screenWidth) {
-			xAxis = screenWidth;
-		}else {
-			xAxis = xAxis + move;
+		if (isAlive) {
+			if (xAxis >= screenWidth) {
+				xAxis = screenWidth;
+			}else {
+				xAxis = xAxis + move;
+			}
 		}
 	}
 	
 	public void moveUp(){
-		if (yAxis <= 0) {
-			yAxis = 0;
-		}else {
-			yAxis = yAxis - move;
+		if (isAlive) {
+			if (yAxis <= 0) {
+				yAxis = 0;
+			}else {
+				yAxis = yAxis - move;
+			}
 		}
 	}
 	
 	public void moveDown(){
-		if (yAxis >= screenHeigth) {
-			yAxis = screenHeigth;
-		}else {
-			yAxis = yAxis + move;
+		if (isAlive) {
+			if (yAxis >= screenHeigth) {
+				yAxis = screenHeigth;
+			}else {
+				yAxis = yAxis + move;
+			}
 		}
 	}
 	
@@ -153,9 +170,16 @@ public class Player {
 		this.isAlive = isAlive;
 	}
 
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
 	@Override
 	public String toString() {
-		return "Player [name=" + name + ", xAxis=" + xAxis + ", yAxis=" + yAxis + ", direction=" + direction
-				+ ", health=" + health + ", attack=" + attack + "]";
+		return "Player [name=" + name + ", health=" + health + ", isAlive=" + isAlive + "]";
 	}
 }

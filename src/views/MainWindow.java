@@ -20,13 +20,15 @@ public class MainWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private PanelGame panelGame;
 	private JPanelLogin login;
+	private JDialogIntro intro;
 	
 	public MainWindow(Controller controller) {
-		setTitle("Kingdom Battle");
 		setSize(800, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
+		
+		intro = new JDialogIntro();
 		
 		login = new JPanelLogin(controller);
 		login.setVisible(true);
@@ -65,5 +67,13 @@ public class MainWindow extends JFrame{
 
 	public void hideLogin() {
 		login.setVisible(false);
+	}
+	
+	public void hideIntro(){
+		intro.setVisible(false);
+	}
+
+	public void showIntro() {
+		intro.setVisible(true);
 	}
 }

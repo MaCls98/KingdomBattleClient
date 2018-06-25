@@ -38,6 +38,7 @@ public class Controller implements KeyListener, ActionListener {
 			} catch (IOException | InterruptedException e) {
 				JOptionPane.showMessageDialog(null, "Wrong IP Address or IP Port", "Error", JOptionPane.WARNING_MESSAGE);
 			}
+			mainWindow.setTitle("Kingdom Battle -" + managerPlayer.getLocalPlayer().getUserName());
 			mainWindow.hideLogin();
 			mainWindow.setVisible(true);
 			break;
@@ -129,9 +130,10 @@ public class Controller implements KeyListener, ActionListener {
 	}
 
 	public void shoot() throws IOException {
-		managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis() + 15, managerPlayer.getLocalPlayer().getyAxis() + 15, managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
-		managerPlayer.getLocalPlayer().fixHealth();
-		clientPlayer.sendShoot();
+		if (managerPlayer.getLocalPlayer().isAlive()) {
+			managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis(), managerPlayer.getLocalPlayer().getyAxis(), managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
+			clientPlayer.sendShoot();
+		}
 	}
 
 	private void createLocalPlayer(String userName) {
@@ -142,7 +144,17 @@ public class Controller implements KeyListener, ActionListener {
 		timer = new Timer(300, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.refreshUI();
+				if (clientPlayer != null) {
+					if (clientPlayer.isWaiting()) {
+						mainWindow.showIntro();
+					}else if (clientPlayer.isOk()) {
+						mainWindow.hideIntro();
+						mainWindow.setVisible(true);
+						mainWindow.paintPlayers(clientPlayer.getPlayersList());
+						mainWindow.paintShoots(clientPlayer.getShootList());
+					}
+					mainWindow.refreshUI();
+				}
 			}
 		});
 		timer.start();
@@ -153,16 +165,9 @@ public class Controller implements KeyListener, ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (managerPlayer.getLocalPlayer() != null) {
-					if (clientPlayer.getLocalPlayer() != null) {
-						managerPlayer.setHealth(clientPlayer.getLocalPlayer().getHealth());
-					}
 					clientPlayer.setLocalPlayer(managerPlayer.getLocalPlayer());
 					try {
 						clientPlayer.sendLocalPlayer();
-						if (clientPlayer.isOk()) {
-							mainWindow.paintPlayers(clientPlayer.getPlayersList());
-							mainWindow.paintShoots(clientPlayer.getShootList());
-						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

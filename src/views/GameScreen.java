@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class GameScreen extends JPanel{
 	private ImageIcon shoot = new ImageIcon(getClass().getResource("/img/attack.gif"));
 	private ImageIcon blood = new ImageIcon(getClass().getResource("/img/blood.png"));
 	private ImageIcon bg = new ImageIcon(getClass().getResource("/img/background.jpg"));
+	private ImageIcon dead = new ImageIcon(getClass().getResource("/img/dead.png"));
 	private ArrayList<Player> players;
 	private ArrayList<Shoot> shoots;
 	
@@ -68,12 +70,20 @@ public class GameScreen extends JPanel{
 
 	public void drawPlayers(Graphics g) {
 		ArrayList<Player> tmpPlayers = players;
+		System.out.println(tmpPlayers);
 		if (tmpPlayers != null) {
 			for (Player player : tmpPlayers) {
 				try {
-					g.drawImage(warrior.getImage(), player.getxAxis(), player.getyAxis(), this);
-					g.drawString(player.getUserName(), player.getxAxis(), player.getyAxis() - 15);
-					g.drawString(String.valueOf(player.getHealth()), player.getxAxis(), player.getyAxis() + 30);
+					if (player.isAlive()) {
+						g.drawImage(warrior.getImage(), player.getxAxis(), player.getyAxis(), this);
+						g.setFont(new Font("Arial", Font.BOLD, 16));
+						g.drawString(player.getUserName(), player.getxAxis(), player.getyAxis() - 12);
+						g.drawString(String.valueOf(player.getHealth()), player.getxAxis(), player.getyAxis() + 50);
+					}else {
+						g.drawImage(dead.getImage(), player.getxAxis(), player.getyAxis(), this);
+						g.setFont(new Font("Arial", Font.BOLD, 16));
+						g.drawString(player.getUserName(), player.getxAxis(), player.getyAxis() - 12);
+					}
 				} catch (Exception e) {
 					// TODO: handle exception
 				}

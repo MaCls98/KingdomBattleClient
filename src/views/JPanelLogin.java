@@ -30,7 +30,7 @@ public class JPanelLogin extends JDialog{
 	public JPanelLogin(Controller controller) {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
-		
+		setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
 		setSize(400, 500);
 		
 		GridBagConstraints c = new GridBagConstraints();
@@ -47,7 +47,7 @@ public class JPanelLogin extends JDialog{
 		c.gridy = 1;
 		c.gridx = 0;
 		c.gridwidth = 1;
-		JLabel lblTitle = new JLabel("Welcome to Kingdom Battle");
+		JLabel lblTitle = new JLabel("Bienvenido a Kingdom Battle");
 		lblTitle.setHorizontalAlignment(JLabel.CENTER);
 		lblTitle.setIcon(new ImageIcon(getClass().getResource("/img/icon.png")));
 		lblTitle.setFont(new Font("Arial", Font.BOLD, 20));
@@ -58,7 +58,7 @@ public class JPanelLogin extends JDialog{
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		fieldName = new JTextField();
-		fieldName.setBorder(BorderFactory.createTitledBorder("Player Name"));
+		fieldName.setBorder(BorderFactory.createTitledBorder("Introduce tu nombre"));
 		fieldName.setFont(new Font("Arial", Font.BOLD, 20));
 		add(fieldName, c);
 		
@@ -66,7 +66,7 @@ public class JPanelLogin extends JDialog{
 		c.gridx = 0;
 		c.gridwidth = 1;
 		fieldIPAddress = new JTextField();
-		fieldIPAddress.setBorder(BorderFactory.createTitledBorder("IP Address"));
+		fieldIPAddress.setBorder(BorderFactory.createTitledBorder("Direccion IP"));
 		fieldIPAddress.setFont(new Font("Arial", Font.BOLD, 20));
 		add(fieldIPAddress, c);
 		
@@ -74,14 +74,14 @@ public class JPanelLogin extends JDialog{
 		c.gridx = 0;
 		c.gridwidth = 1;
 		fieldIPPort = new JTextField();
-		fieldIPPort.setBorder(BorderFactory.createTitledBorder("IP Port"));
+		fieldIPPort.setBorder(BorderFactory.createTitledBorder("Puerto IP"));
 		fieldIPPort.setFont(new Font("Arial", Font.BOLD, 20));
 		add(fieldIPPort, c);
 		
 		c.gridy = 5;
 		c.gridx = 0;
 		c.gridwidth = 1;
-		btnLogin = new JButton("Connect and Play!");
+		btnLogin = new JButton("Conectarme ahora!");
 		btnLogin.addActionListener(controller);
 		btnLogin.setActionCommand(EVENTS.LOGIN.toString());
 		btnLogin.setBackground(Color.WHITE);

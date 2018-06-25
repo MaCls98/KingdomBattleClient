@@ -2,6 +2,7 @@ package model;
 
 public class Shoot {
 	
+	private String name;
 	private int damage;
 	private int direction;
 	private int x;
@@ -12,12 +13,13 @@ public class Shoot {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Shoot(int x, int y, int damage, int direction) {
+	public Shoot(int x, int y, int damage, int direction, String name) {
 		super();
 		this.damage = damage;
 		this.direction = direction;
 		this.x = x;
 		this.y = y;
+		this.name = name;
 	}
 
 	public int getX() {
@@ -62,6 +64,6 @@ public class Shoot {
 
 	@Override
 	public String toString() {
-		return x + "," + y + "," + damage + "," + direction + "," + isActive;
+		return x + "," + y + "," + damage + "," + direction + "," + isActive + "," + name;
 	}
 }

@@ -24,9 +24,11 @@ public class ClientPlayer extends Thread {
 	private ArrayList<Player> playersList;
 	private ArrayList<Shoot> shootList;
 	private boolean isOk;
+	private boolean isWaiting;
 	public final static Logger LOGGER = Logger.getGlobal();
 
 	public ClientPlayer(int ipAddress, int ipPort) throws IOException, InterruptedException {
+		isWaiting = true;
 		connection = new Socket(String.valueOf(ipAddress), ipPort);
 		inputStream = new DataInputStream(connection.getInputStream());
 		outputStream = new DataOutputStream(connection.getOutputStream());
@@ -43,7 +45,6 @@ public class ClientPlayer extends Thread {
 					manageRequest(response);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Connection Lost with the Server");
 				stop = true;
 			}
@@ -55,6 +56,8 @@ public class ClientPlayer extends Thread {
 			updatePlayers();
 		} else if (response.equals(REQUEST.UPDATE_SHOOTS.toString())) {
 			updateShoots();
+		} else if (response.equals(REQUEST.WAIT_PLAYERS.toString())) {
+			isWaiting = true;
 		}
 	}
 
@@ -97,13 +100,15 @@ public class ClientPlayer extends Thread {
 			for (Player player : playersList) {
 				if (player.getUserName().equals(localPlayer.getUserName())) {
 					localPlayer.setHealth(player.getHealth());
-					System.out.println(localPlayer);
+					localPlayer.setAlive(player.isAlive());
+					localPlayer.checkAlive();
 				}
 			}
 			isOk = true;
 		} catch (Exception e) {
 			isOk = false;
 		}
+		isWaiting = false;
 		// FileOutputStream outputStream = new FileOutputStream("players.json");
 		// int length = Integer.parseInt(inputStream.readUTF());
 		// byte[] buffer = new byte[4096];
@@ -145,6 +150,7 @@ public class ClientPlayer extends Thread {
 			tempP.setyAxis(Integer.parseInt(tempPStr[3]));
 			tempP.setHealth(Integer.parseInt(tempPStr[4]));
 			tempP.setAttack(Integer.parseInt(tempPStr[5]));
+			tempP.setAlive(new Boolean(tempPStr[6]));
 			return tempP;
 		} catch (Exception e) {
 
@@ -166,6 +172,10 @@ public class ClientPlayer extends Thread {
 	public String playerToString() {
 		return localPlayer.getUserName() + "," + localPlayer.getxAxis() + "," + localPlayer.getyAxis() + ","
 				+ localPlayer.getDirection() + "," + localPlayer.getHealth() + "," + localPlayer.getAttack();
+	}
+	
+	public boolean isWaiting() {
+		return isWaiting;
 	}
 
 	public boolean isOk() {
