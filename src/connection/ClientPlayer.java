@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 
 import org.json.simple.parser.ParseException;
 
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import model.Player;
+import model.Shoot;
 
 public class ClientPlayer extends Thread {
 
@@ -23,11 +23,12 @@ public class ClientPlayer extends Thread {
 	private boolean stop;
 	private Player localPlayer;
 	private ArrayList<Player> playersList;
+	private ArrayList<Shoot> shootList;
 	private boolean isOk;
 	public final static Logger LOGGER = Logger.getGlobal();
 
-	public ClientPlayer() throws IOException, InterruptedException {
-		createConnection();
+	public ClientPlayer(int ipAddress, int ipPort) throws IOException, InterruptedException {
+		connection = new Socket(String.valueOf(ipAddress), ipPort);
 		inputStream = new DataInputStream(connection.getInputStream());
 		outputStream = new DataOutputStream(connection.getOutputStream());
 		start();
@@ -58,24 +59,28 @@ public class ClientPlayer extends Thread {
 		}
 	}
 
-	private void updateShoots() {
-		
+	private void updateShoots() throws IOException {
+		String shootsStr = inputStream.readUTF();
+		String[] shootStr = shootsStr.split(":");
+		ArrayList<String> shootsTmp = new ArrayList<>();
+		for (String string : shootStr) {
+			shootsTmp.add(string);
+		}
+		try {
+			shootList = new ArrayList<>();
+			for (String string : shootsTmp) {
+				Shoot s = addShootToList(string);
+				if (s != null) {
+					shootList.add(s);
+				}
+				isOk = true;
+			}
+		} catch (Exception e) {
+			isOk = false;
+		}
 	}
 
 	private void updatePlayers() throws IOException, ParseException {
-		// FileOutputStream outputStream = new FileOutputStream("players.json");
-		// int length = Integer.parseInt(inputStream.readUTF());
-		// byte[] buffer = new byte[4096];
-		// int fileSize = length;
-		// int read = 0;
-		// int remaining = fileSize;
-		// while ((read = inputStream.read(buffer, 0, Math.min(buffer.length,
-		// remaining))) > 0) {
-		// remaining -= read;
-		// outputStream.write(buffer, 0, read);
-		// }
-		// outputStream.close();
-		// players = jSonPlayer.getPlayersFromJSon();
 		String playersStr = inputStream.readUTF();
 		String[] playerStr = playersStr.split(":");
 		ArrayList<String> playersTmp = new ArrayList<>();
@@ -89,18 +94,52 @@ public class ClientPlayer extends Thread {
 				if (p != null) {
 					playersList.add(p);
 				}
-				isOk = true;
 			}
+			for (Player player : playersList) {
+				if (player.getUserName().equals(localPlayer.getUserName())) {
+					localPlayer.setHealth(player.getHealth());
+					System.out.println(localPlayer);
+				}
+			}
+			isOk = true;
 		} catch (Exception e) {
 			isOk = false;
 		}
+		// FileOutputStream outputStream = new FileOutputStream("players.json");
+		// int length = Integer.parseInt(inputStream.readUTF());
+		// byte[] buffer = new byte[4096];
+		// int fileSize = length;
+		// int read = 0;
+		// int remaining = fileSize;
+		// while ((read = inputStream.read(buffer, 0, Math.min(buffer.length,
+		// remaining))) > 0) {
+		// remaining -= read;
+		// outputStream.write(buffer, 0, read);
+		// }
+		// outputStream.close();
+		// players = jSonPlayer.getPlayersFromJSon();
+	}
+	
+	private Shoot addShootToList(String string) {
+		String[] tempPStr = string.split(",");
+		try {
+			Shoot tempS = new Shoot();
+			tempS.setX(Integer.parseInt(tempPStr[0]));
+			tempS.setY(Integer.parseInt(tempPStr[1]));
+			tempS.setDamage(Integer.parseInt(tempPStr[2]));
+			tempS.setDirection(Integer.parseInt(tempPStr[3]));
+			tempS.setActive(new Boolean(tempPStr[4]));
+			return tempS;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 	private Player addPlayersToList(String string) {
 		String[] tempPStr = string.split(",");
 		try {
 			Player tempP = new Player();
-			tempP = new Player();
 			tempP.setName(tempPStr[0]);
 			tempP.setDirection(Integer.parseInt(tempPStr[1]));
 			tempP.setxAxis(Integer.parseInt(tempPStr[2]));
@@ -130,18 +169,16 @@ public class ClientPlayer extends Thread {
 				+ localPlayer.getDirection() + "," + localPlayer.getHealth() + "," + localPlayer.getAttack();
 	}
 
-	public void createConnection() {
-		try {
-			this.connection = new Socket(JOptionPane.showInputDialog("IP Address"),
-					Integer.parseInt(JOptionPane.showInputDialog("IP Port")));
-		} catch (HeadlessException | NumberFormatException | IOException e) {
-			JOptionPane.showMessageDialog(null, "IP Addres or IP Port Wrong // Connection Rejected", "Error Connection",
-					JOptionPane.WARNING_MESSAGE);
-		}
-	}
-
 	public boolean isOk() {
 		return isOk;
+	}
+	
+	public Player getLocalPlayer() {
+		return localPlayer;
+	}
+	
+	public ArrayList<Shoot> getShootList() {
+		return shootList;
 	}
 
 	public ArrayList<Player> getPlayersList() {

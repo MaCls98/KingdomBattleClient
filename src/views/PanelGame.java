@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import controller.Controller;
 import model.Player;
+import model.Shoot;
 
 public class PanelGame extends JPanel{
 
@@ -26,6 +27,9 @@ public class PanelGame extends JPanel{
 	
 	public void paintPlayers(ArrayList<Player> players){
 		gameScreen.paintPlayers(players);
+	}
+	public void paintShoots(ArrayList<Shoot> shoots){
+		gameScreen.paintShoots(shoots);
 	}
 
 	public void refreshUI() {

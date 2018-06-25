@@ -33,8 +33,10 @@ public class Player {
 		move = 10;
 		this.screenWidth = screenWidth;
 		this.screenHeigth = screenHeigth;
-		System.out.println(screenWidth);
-		System.out.println(screenHeigth);
+	}
+	
+	public void fixHealth(){
+		health = health + attack;
 	}
 	
 	public void removeShoot(){

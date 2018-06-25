@@ -15,7 +15,7 @@ import model.Player;
 import persistence.JSonPlayer;
 import views.MainWindow;
 
-public class Controller implements KeyListener {
+public class Controller implements KeyListener, ActionListener {
 
 	private ClientPlayer clientPlayer;
 	private ManagerPlayer managerPlayer;
@@ -25,11 +25,27 @@ public class Controller implements KeyListener {
 	public Controller() throws IOException, InterruptedException {
 		mainWindow = new MainWindow(this);
 		managerPlayer = new ManagerPlayer();
-		createLocalPlayer();
-		clientPlayer = new ClientPlayer();
 		refreshLocalPlayerInfo();
-		mainWindow.setVisible(true);
 		refreshUI();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent a) {
+		switch (EVENTS.valueOf(a.getActionCommand())) {
+		case LOGIN:
+			createLocalPlayer(mainWindow.getFieldName());
+			try {
+				clientPlayer = new ClientPlayer(mainWindow.getFieldIPAddress(), mainWindow.getFieldIPPort());
+			} catch (IOException | InterruptedException e) {
+				JOptionPane.showMessageDialog(null, "Wrong IP Address or IP Port", "Error", JOptionPane.WARNING_MESSAGE);
+			}
+			mainWindow.hideLogin();
+			mainWindow.setVisible(true);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -115,11 +131,12 @@ public class Controller implements KeyListener {
 
 	public void shoot() throws IOException {
 		managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis(), managerPlayer.getLocalPlayer().getyAxis(), managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
+		managerPlayer.getLocalPlayer().fixHealth();
 		clientPlayer.sendShoot();
 	}
 
-	private void createLocalPlayer() {
-		managerPlayer.createLocalPlayer(new Player(JOptionPane.showInputDialog("Name") , 800, 600));
+	private void createLocalPlayer(String userName) {
+		managerPlayer.createLocalPlayer(new Player(userName , 700, 500));
 	}
 
 	private void refreshUI() {
@@ -142,11 +159,14 @@ public class Controller implements KeyListener {
 						clientPlayer.sendLocalPlayer();
 						if (clientPlayer.isOk()) {
 							mainWindow.paintPlayers(clientPlayer.getPlayersList());
+							mainWindow.paintShoots(clientPlayer.getShootList());
 						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}else {
+					
 				}
 			}
 		});

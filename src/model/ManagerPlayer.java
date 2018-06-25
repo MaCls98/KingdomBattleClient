@@ -8,6 +8,10 @@ public class ManagerPlayer {
 	public ManagerPlayer() {
 	}
 	
+	public void setLocalPlayer(Player localPlayer) {
+		this.localPlayer = localPlayer;
+	}
+	
 	public void setDirection(int direction){
 		localPlayer.setDirection(direction);
 	}

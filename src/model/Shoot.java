@@ -7,6 +7,10 @@ public class Shoot {
 	private int x;
 	private int y;
 	private boolean isActive;
+	
+	public Shoot() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Shoot(int x, int y, int damage, int direction) {
 		super();
@@ -14,6 +18,14 @@ public class Shoot {
 		this.direction = direction;
 		this.x = x;
 		this.y = y;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 
 	public int getDamage() {
@@ -38,6 +50,14 @@ public class Shoot {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	@Override
