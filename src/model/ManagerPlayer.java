@@ -1,11 +1,35 @@
 package model;
 
+import views.JPanelStore;
+
 public class ManagerPlayer {
 	
 	private Player localPlayer;
 	private int gameTime;
 	
 	public ManagerPlayer() {
+	}
+	
+	public void setItems(JPanelStore store){
+		if (store.getHealth()) {
+			if (localPlayer.getMoney() > 10) {
+				localPlayer.itemHealth();
+				localPlayer.restMoney();
+			}
+		}
+		if (store.getAttack()) {
+			if (localPlayer.getMoney() > 10) {
+				localPlayer.itemAttack();
+				localPlayer.restMoney();
+			}
+		}
+		if (store.getMove()) {
+			if (localPlayer.getMoney() > 10) {
+				localPlayer.itemMove();
+				localPlayer.restMoney();
+			}
+		}
+		System.out.println(localPlayer);
 	}
 	
 	public void setLocalPlayer(Player localPlayer) {

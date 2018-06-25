@@ -27,17 +27,34 @@ public class Player {
 		this.health = health;
 		this.attack = attack;
 		isAlive = true;
-		money = 100;
+		money = 10;
 	}
 	
 	public Player(String name, int screenWidth, int screenHeigth) {
 		this.name = name;
 		health = 100;
-		attack = 5;
-		move = 5;
+		attack = 10;
+		move = 7;
+		money = 10;
 		isAlive = true;
 		this.screenWidth = screenWidth;
 		this.screenHeigth = screenHeigth;
+	}
+	
+	public void itemHealth(){
+		health = health + 10;
+	}
+	
+	public void itemMove(){
+		move = move + 10;
+	}
+	
+	public void itemAttack(){
+		attack = attack + 10;
+	}
+	
+	public void restMoney(){
+		money = money - 10;
 	}
 	
 	public void checkAlive(){

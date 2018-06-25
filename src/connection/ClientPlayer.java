@@ -109,19 +109,6 @@ public class ClientPlayer extends Thread {
 			isOk = false;
 		}
 		isWaiting = false;
-		// FileOutputStream outputStream = new FileOutputStream("players.json");
-		// int length = Integer.parseInt(inputStream.readUTF());
-		// byte[] buffer = new byte[4096];
-		// int fileSize = length;
-		// int read = 0;
-		// int remaining = fileSize;
-		// while ((read = inputStream.read(buffer, 0, Math.min(buffer.length,
-		// remaining))) > 0) {
-		// remaining -= read;
-		// outputStream.write(buffer, 0, read);
-		// }
-		// outputStream.close();
-		// players = jSonPlayer.getPlayersFromJSon();
 	}
 	
 	private Shoot addShootToList(String string) {

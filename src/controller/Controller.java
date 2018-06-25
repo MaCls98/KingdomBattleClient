@@ -32,20 +32,23 @@ public class Controller implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent a) {
 		switch (EVENTS.valueOf(a.getActionCommand())) {
 		case LOGIN:
-			createLocalPlayer(mainWindow.getFieldName());
-			try {
-				clientPlayer = new ClientPlayer(mainWindow.getFieldIPAddress(), mainWindow.getFieldIPPort());
-			} catch (IOException | InterruptedException e) {
-				JOptionPane.showMessageDialog(null, "Wrong IP Address or IP Port", "Error", JOptionPane.WARNING_MESSAGE);
-			}
-			mainWindow.setTitle("Kingdom Battle -" + managerPlayer.getLocalPlayer().getUserName());
-			mainWindow.hideLogin();
-			mainWindow.setVisible(true);
+			login();
 			break;
-
 		default:
 			break;
 		}
+	}
+
+	public void login() {
+		createLocalPlayer(mainWindow.getFieldName());
+		try {
+			clientPlayer = new ClientPlayer(mainWindow.getFieldIPAddress(), mainWindow.getFieldIPPort());
+		} catch (IOException | InterruptedException e) {
+			JOptionPane.showMessageDialog(null, "Wrong IP Address or IP Port", "Error", JOptionPane.WARNING_MESSAGE);
+		}
+		mainWindow.setTitle("Kingdom Battle -" + managerPlayer.getLocalPlayer().getUserName());
+		mainWindow.hideLogin();
+		mainWindow.setVisible(true);
 	}
 
 	@Override
@@ -130,14 +133,16 @@ public class Controller implements KeyListener, ActionListener {
 	}
 
 	public void shoot() throws IOException {
-		if (managerPlayer.getLocalPlayer().isAlive()) {
-			managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis(), managerPlayer.getLocalPlayer().getyAxis(), managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
-			clientPlayer.sendShoot();
+		if (clientPlayer.isOk()) {
+			if (managerPlayer.getLocalPlayer().isAlive()) {
+				managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis(), managerPlayer.getLocalPlayer().getyAxis(), managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
+				clientPlayer.sendShoot();
+			}
 		}
 	}
 
 	private void createLocalPlayer(String userName) {
-		managerPlayer.createLocalPlayer(new Player(userName , 700, 500));
+		managerPlayer.createLocalPlayer(new Player(userName , 800, 600));
 	}
 
 	private void refreshUI() {

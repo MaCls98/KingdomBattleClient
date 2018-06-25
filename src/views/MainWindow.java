@@ -28,7 +28,7 @@ public class MainWindow extends JFrame{
 		
 		setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
 		
-		intro = new JDialogIntro();
+		intro = new JDialogIntro(controller);
 		
 		login = new JPanelLogin(controller);
 		login.setVisible(true);
@@ -64,6 +64,10 @@ public class MainWindow extends JFrame{
 	public int getFieldIPPort() {
 		return login.getFieldIPPort();
 	}
+	
+	public JPanelStore getSelections(){
+		return intro.getStore();
+	}
 
 	public void hideLogin() {
 		login.setVisible(false);
@@ -75,5 +79,9 @@ public class MainWindow extends JFrame{
 
 	public void showIntro() {
 		intro.setVisible(true);
+	}
+	
+	public void removeItems(){
+		intro.removeItems();
 	}
 }

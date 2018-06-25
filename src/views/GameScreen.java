@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -70,18 +71,22 @@ public class GameScreen extends JPanel{
 
 	public void drawPlayers(Graphics g) {
 		ArrayList<Player> tmpPlayers = players;
-		System.out.println(tmpPlayers);
 		if (tmpPlayers != null) {
 			for (Player player : tmpPlayers) {
 				try {
 					if (player.isAlive()) {
 						g.drawImage(warrior.getImage(), player.getxAxis(), player.getyAxis(), this);
+						g.setColor(Color.WHITE);
 						g.setFont(new Font("Arial", Font.BOLD, 16));
-						g.drawString(player.getUserName(), player.getxAxis(), player.getyAxis() - 12);
-						g.drawString(String.valueOf(player.getHealth()), player.getxAxis(), player.getyAxis() + 50);
+						g.drawString(player.getUserName(), player.getxAxis() + 5, player.getyAxis() - 12);
+						g.setColor(Color.GREEN);
+						g.drawRect(player.getxAxis(), player.getyAxis() + 68, 100, 10);
+						g.setColor(Color.GREEN);
+						g.fillRect(player.getxAxis(), player.getyAxis() + 68, player.getHealth(), 10);
 					}else {
 						g.drawImage(dead.getImage(), player.getxAxis(), player.getyAxis(), this);
-						g.setFont(new Font("Arial", Font.BOLD, 16));
+						g.setColor(Color.WHITE);
+						g.setFont(new Font("Arial", Font.BOLD, 20));
 						g.drawString(player.getUserName(), player.getxAxis(), player.getyAxis() - 12);
 					}
 				} catch (Exception e) {
