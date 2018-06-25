@@ -21,9 +21,11 @@ public class MainWindow extends JFrame{
 	private PanelGame panelGame;
 	private JPanelLogin login;
 	private JDialogIntro intro;
+	private JPanelStore store;
 	
 	public MainWindow(Controller controller) {
 		setSize(800, 600);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
@@ -35,10 +37,6 @@ public class MainWindow extends JFrame{
 		
 		panelGame = new PanelGame(controller);
 		add(panelGame, BorderLayout.CENTER);
-		
-		JPanel p = new JPanel();
-		p.setBackground(Color.red);
-		add(p, BorderLayout.LINE_END);
 	}
 	
 	public void paintShoots(ArrayList<Shoot> shoots){
@@ -65,8 +63,8 @@ public class MainWindow extends JFrame{
 		return login.getFieldIPPort();
 	}
 	
-	public JPanelStore getSelections(){
-		return intro.getStore();
+	public JPanelStore getBuy(){
+		return store;
 	}
 
 	public void hideLogin() {
@@ -79,9 +77,5 @@ public class MainWindow extends JFrame{
 
 	public void showIntro() {
 		intro.setVisible(true);
-	}
-	
-	public void removeItems(){
-		intro.removeItems();
 	}
 }

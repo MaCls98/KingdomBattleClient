@@ -28,6 +28,7 @@ public class ClientPlayer extends Thread {
 	public final static Logger LOGGER = Logger.getGlobal();
 
 	public ClientPlayer(int ipAddress, int ipPort) throws IOException, InterruptedException {
+		isOk = true;
 		isWaiting = true;
 		connection = new Socket(String.valueOf(ipAddress), ipPort);
 		inputStream = new DataInputStream(connection.getInputStream());
@@ -45,8 +46,8 @@ public class ClientPlayer extends Thread {
 					manageRequest(response);
 				}
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Connection Lost with the Server");
-				stop = true;
+//				JOptionPane.showMessageDialog(null, "Connection Lost with the Server");
+//				stop = true;
 			}
 		}
 	}
@@ -138,6 +139,7 @@ public class ClientPlayer extends Thread {
 			tempP.setHealth(Integer.parseInt(tempPStr[4]));
 			tempP.setAttack(Integer.parseInt(tempPStr[5]));
 			tempP.setAlive(new Boolean(tempPStr[6]));
+			tempP.setWinner(new Boolean(tempPStr[7]));
 			return tempP;
 		} catch (Exception e) {
 

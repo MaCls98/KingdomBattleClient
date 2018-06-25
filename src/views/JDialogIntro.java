@@ -16,7 +16,6 @@ public class JDialogIntro extends JDialog{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanelStore store;
 	private JLabel lblTitle;
 	private JLabel txtIntro;
 	private ImageIcon loading = new ImageIcon(getClass().getResource("/img/loading.gif"));
@@ -44,13 +43,5 @@ public class JDialogIntro extends JDialog{
 		JLabel lblIcon = new JLabel(axe);
 		lblIcon.setBackground(Color.WHITE);
 		add(lblIcon, BorderLayout.LINE_END);
-	}
-	
-	public void removeItems(){
-		store.removeItems();
-	}
-	
-	public JPanelStore getStore() {
-		return store;
 	}
 }

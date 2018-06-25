@@ -12,6 +12,7 @@ public class Player {
 	private int attack;
 	private int move;
 	private boolean isAlive;
+	private boolean isWinner;
 	private int money;
 	private Shoot shoot;
 	
@@ -27,16 +28,18 @@ public class Player {
 		this.health = health;
 		this.attack = attack;
 		isAlive = true;
+		isWinner = false;
 		money = 10;
 	}
 	
 	public Player(String name, int screenWidth, int screenHeigth) {
 		this.name = name;
 		health = 100;
-		attack = 10;
+		attack = 5;
 		move = 7;
 		money = 10;
 		isAlive = true;
+		isWinner = false;
 		this.screenWidth = screenWidth;
 		this.screenHeigth = screenHeigth;
 	}
@@ -63,6 +66,14 @@ public class Player {
 		}
 	}
 	
+	public boolean isWinner() {
+		return isWinner;
+	}
+
+	public void setWinner(boolean isWinner) {
+		this.isWinner = isWinner;
+	}
+
 	public void fixHealth(){
 		health = health + attack;
 	}

@@ -34,6 +34,8 @@ public class Controller implements KeyListener, ActionListener {
 		case LOGIN:
 			login();
 			break;
+		case BUY:
+			break;
 		default:
 			break;
 		}
@@ -170,15 +172,15 @@ public class Controller implements KeyListener, ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (managerPlayer.getLocalPlayer() != null) {
-					clientPlayer.setLocalPlayer(managerPlayer.getLocalPlayer());
-					try {
-						clientPlayer.sendLocalPlayer();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					if (clientPlayer.isOk()) {
+						clientPlayer.setLocalPlayer(managerPlayer.getLocalPlayer());
+						try {
+							clientPlayer.sendLocalPlayer();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
-				}else {
-					
 				}
 			}
 		});

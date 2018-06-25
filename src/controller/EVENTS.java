@@ -1,5 +1,5 @@
 package controller;
 
 public enum EVENTS {
-	LOGIN
+	LOGIN, BUY
 }
