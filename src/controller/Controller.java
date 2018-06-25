@@ -12,7 +12,6 @@ import javax.swing.Timer;
 import connection.ClientPlayer;
 import model.ManagerPlayer;
 import model.Player;
-import persistence.JSonPlayer;
 import views.MainWindow;
 
 public class Controller implements KeyListener, ActionListener {
@@ -130,7 +129,7 @@ public class Controller implements KeyListener, ActionListener {
 	}
 
 	public void shoot() throws IOException {
-		managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis(), managerPlayer.getLocalPlayer().getyAxis(), managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
+		managerPlayer.getLocalPlayer().createShoot(managerPlayer.getLocalPlayer().getxAxis() + 15, managerPlayer.getLocalPlayer().getyAxis() + 15, managerPlayer.getLocalPlayer().getAttack(), managerPlayer.getLocalPlayer().getDirection());
 		managerPlayer.getLocalPlayer().fixHealth();
 		clientPlayer.sendShoot();
 	}
@@ -154,6 +153,9 @@ public class Controller implements KeyListener, ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (managerPlayer.getLocalPlayer() != null) {
+					if (clientPlayer.getLocalPlayer() != null) {
+						managerPlayer.setHealth(clientPlayer.getLocalPlayer().getHealth());
+					}
 					clientPlayer.setLocalPlayer(managerPlayer.getLocalPlayer());
 					try {
 						clientPlayer.sendLocalPlayer();

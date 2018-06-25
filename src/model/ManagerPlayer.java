@@ -12,6 +12,10 @@ public class ManagerPlayer {
 		this.localPlayer = localPlayer;
 	}
 	
+	public void setHealth(int health){
+		localPlayer.setHealth(health);
+	}
+	
 	public void setDirection(int direction){
 		localPlayer.setDirection(direction);
 	}

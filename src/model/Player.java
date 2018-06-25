@@ -11,6 +11,7 @@ public class Player {
 	private int health;
 	private int attack;
 	private int move;
+	private boolean isAlive;
 	private Shoot shoot;
 	
 	public Player() {
@@ -24,13 +25,14 @@ public class Player {
 		this.direction = direction;
 		this.health = health;
 		this.attack = attack;
+		isAlive = true;
 	}
-
+	
 	public Player(String name, int screenWidth, int screenHeigth) {
 		this.name = name;
 		health = 100;
 		attack = 5;
-		move = 10;
+		move = 5;
 		this.screenWidth = screenWidth;
 		this.screenHeigth = screenHeigth;
 	}
@@ -141,6 +143,14 @@ public class Player {
 
 	public void setAttack(int attack) {
 		this.attack = attack;
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
 	}
 
 	@Override
